@@ -1,0 +1,104 @@
+/*
+ * DESIGN TOKENS — the only place colours, fonts, spacing and radii are defined.
+ * Every other stylesheet uses these variables. Settings → Appearance can override
+ * the colour tokens at runtime (they are written as inline styles on <html>).
+ *
+ * Themes:   <html data-theme="dark" | "light">
+ * Density:  <html data-density="comfortable" | "compact">
+ * Motion:   <html data-motion="on" | "off">
+ */
+
+/* ---------- dark (default) ---------- */
+:root,
+:root[data-theme="dark"] {
+  --bg: #0B1120;          /* page background */
+  --bg-2: #0D1426;        /* sidebar, wells, inputs */
+  --panel: #111827;       /* cards */
+  --panel-2: #162033;     /* hover / raised */
+  --panel-3: #1C2740;     /* active / toasts */
+  --text: #E5E7EB;
+  --muted: #94A3B8;
+  --faint: #64748B;
+  --line: #94A3B8;        /* base colour for borders & neutral fills */
+  --accent: #4FD1C5;      /* primary: progress, completed, links */
+  --on-accent: #062522;   /* text on accent buttons (auto-computed when accent changes) */
+  --amber: #F0B67F;       /* secondary: in progress, highlights */
+  --danger: #F2777A;
+  --info: #A5B4FC;        /* planning / ideas */
+  --shadow-color: 2, 6, 23;
+  color-scheme: dark;
+}
+
+/* ---------- light ---------- */
+:root[data-theme="light"] {
+  --bg: #F5F6F8;
+  --bg-2: #ECEFF3;
+  --panel: #FFFFFF;
+  --panel-2: #F3F5F8;
+  --panel-3: #E6EAF0;
+  --text: #182030;
+  --muted: #566174;
+  --faint: #8A94A6;
+  --line: #475569;
+  --accent: #0F9488;
+  --on-accent: #FFFFFF;
+  --amber: #B45F16;
+  --danger: #C93B3B;
+  --info: #4F46E5;
+  --shadow-color: 15, 23, 42;
+  color-scheme: light;
+}
+
+/* ---------- derived tokens (follow whatever the base colours are) ---------- */
+:root {
+  --border: color-mix(in srgb, var(--line) 16%, transparent);
+  --border-strong: color-mix(in srgb, var(--line) 30%, transparent);
+  --fill-1: color-mix(in srgb, var(--line) 8%, transparent);
+  --fill-2: color-mix(in srgb, var(--line) 14%, transparent);
+  --fill-3: color-mix(in srgb, var(--line) 22%, transparent);
+  --accent-soft: color-mix(in srgb, var(--accent) 14%, transparent);
+  --accent-line: color-mix(in srgb, var(--accent) 45%, transparent);
+  --accent-hover: color-mix(in srgb, var(--accent) 82%, var(--text));
+  --accent-text: color-mix(in srgb, var(--accent) 35%, var(--text));
+  --amber-soft: color-mix(in srgb, var(--amber) 14%, transparent);
+  --amber-line: color-mix(in srgb, var(--amber) 45%, transparent);
+  --danger-soft: color-mix(in srgb, var(--danger) 12%, transparent);
+  --danger-line: color-mix(in srgb, var(--danger) 40%, transparent);
+  --info-soft: color-mix(in srgb, var(--info) 14%, transparent);
+  --topbar-bg: color-mix(in srgb, var(--bg) 86%, transparent);
+  --scrim: rgba(var(--shadow-color), 0.62);
+  --shadow: 0 10px 30px rgba(var(--shadow-color), 0.28);
+
+  --st-completed: var(--accent);
+  --st-in_progress: var(--amber);
+  --st-not_started: var(--faint);
+  --st-skipped: color-mix(in srgb, var(--faint) 70%, transparent);
+
+  /* typography */
+  --font-ui: 'Inter', 'IBM Plex Sans Arabic', system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans Arabic', Tahoma, sans-serif;
+  --font-head: 'Space Grotesk', 'IBM Plex Sans Arabic', 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, 'IBM Plex Sans Arabic', monospace;
+  --fs-base: 14px;
+
+  /* shape & spacing */
+  --radius: 12px;
+  --radius-sm: 8px;
+  --card-pad: 18px 20px;
+  --gap: 18px;
+  --row-pad: 6px;
+  --sidebar-w: 248px;
+  --topbar-h: 60px;
+  --focus: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
+  --speed: .15s;
+}
+
+:root[data-density="compact"] {
+  --fs-base: 13px;
+  --card-pad: 12px 14px;
+  --gap: 12px;
+  --row-pad: 3px;
+  --radius: 10px;
+}
+
+:root[data-motion="off"] { --speed: 0s; }
+:root[data-motion="off"] *, :root[data-motion="off"] *::before, :root[data-motion="off"] *::after { animation: none !important; transition: none !important; }

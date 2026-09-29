@@ -1,0 +1,86 @@
+/* Breakpoints: laptop ≤1280, tablet ≤1024, phone ≤720. */
+@media (max-width: 1280px) {
+  .focus-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ws-head { grid-template-columns: minmax(0, 1fr) minmax(220px, 1fr); }
+  .ws-now { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; }
+  body.detail-open .view { padding-inline-end: 32px; }
+}
+
+@media (max-width: 1024px) {
+  :root { --sidebar-w: 260px; }
+  .sidebar { transform: translateX(-100%); transition: transform calc(var(--speed) + .05s) ease; box-shadow: var(--shadow); }
+  [dir="rtl"] .sidebar { transform: translateX(100%); }
+  body.nav-open .sidebar { transform: none; }
+  body.nav-open .scrim { display: block; position: fixed; inset: 0; z-index: 25; background: var(--scrim); }
+  .main-col { margin-inline-start: 0; }
+  .topbar .menu-btn { display: inline-grid; }
+  .view { padding: 22px 20px 56px; }
+  .dash-grid, .ws-grid, .course-layout { grid-template-columns: 1fr; }
+  .kanban { grid-template-columns: 1fr 1fr; }
+  .detail-panel { width: min(440px, 92vw); min-width: 0; }
+  .kpi.big { grid-column: span 2; }
+}
+
+@media (max-width: 720px) {
+  body { font-size: 14.5px; }
+  .topbar { padding: 0 12px; gap: 8px; }
+  .top-actions .btn span { display: none; }
+  .top-actions .btn { width: 36px; padding: 0; }
+  .timer-label { display: none; }
+  .timer-chip .btn span { display: none; }
+  .view { padding: 18px 16px 56px; }
+  h1, .page-head.hero h1 { font-size: 23px; }
+  .page-head { align-items: flex-start; }
+  .focus-row { grid-template-columns: 1fr; }
+  .kpis { grid-template-columns: 1fr 1fr; }
+  .kpi.big { grid-column: 1 / -1; }
+  .ws-head { grid-template-columns: 1fr; }
+  .ws-now { grid-template-columns: 1fr; }
+  .kanban { grid-template-columns: 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .detail-panel { width: 100vw; }
+  .filter-bar input[type=search] { width: 100%; }
+  .rm-find, .rm-find input { width: 100%; }
+  .rm-toolbar .btn-group.push { margin-inline-start: 0; }
+  .rm-svg { height: calc(100vh - 330px); min-height: 380px; }
+  .rm-legend .hint { display: none; }
+  .ol-row { grid-template-columns: 26px 28px minmax(0, 1fr) auto auto; }
+  .rm-toolbar .btn-group { flex-wrap: wrap; }
+  .ol-row .ol-type, .ol-row .ol-bar { display: none; }
+  .ol-row { padding-inline-start: calc(4px + var(--depth, 0) * 12px); }
+  .task-row { grid-template-columns: 28px minmax(0, 1fr) auto; }
+  .task-row .due, .task-row > .prio { display: none; }
+  .task-row .row-actions, .pt-row .row-actions, .ct-actions, .sheet-head .row-actions { opacity: 1; }
+  .task-row .row-actions { grid-column: 2 / -1; }
+  .pt-row { grid-template-columns: 28px minmax(0, 1fr); }
+  .pt-row .row-actions { grid-column: 2; }
+  .sheet-head { grid-template-columns: 1fr auto; }
+  .sheet-bar { grid-column: 1 / -1; max-width: none; }
+  .learn-list li { grid-template-columns: 20px minmax(0, 1fr); }
+  .learn-list .ll-bar, .learn-list li > .btn { grid-column: 2; }
+  .sessions li { grid-template-columns: 16px 56px minmax(0, 1fr); }
+  .sessions li > .sess-kind { display: none; }
+  .bar-list li { grid-template-columns: minmax(90px, 40%) 1fr 44px; gap: 8px; }
+  .result { grid-template-columns: 1fr; }
+  .course-grid, .skill-grid, .ms-grid, .applied-grid, .ltt-grid { grid-template-columns: 1fr; }
+  .icon-btn.sm { width: 32px; height: 32px; }
+  .status-toggle { width: 32px; height: 32px; }
+  .toasts { inset-inline: 12px; bottom: 12px; max-width: none; }
+  .focus-clock { font-size: 40px; }
+}
+
+@media (max-width: 720px) {
+  .learn-head { grid-template-columns: 1fr auto; }
+  .breakdown { grid-template-columns: 1fr; }
+  .settings-grid, .lists-grid { grid-template-columns: 1fr; }
+  .mg-row .type-badge { display: none; }
+  .li-row .row-actions { opacity: 1; }
+  .hier-steps { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 720px) {
+  .cert-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cert-body { padding: 10px; }
+  .cert-open { padding: 6px 6px 0; }
+}
+@media (max-width: 420px) { .cert-grid { grid-template-columns: 1fr; } }

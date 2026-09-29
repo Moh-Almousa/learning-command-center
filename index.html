@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-theme="dark" data-density="comfortable" data-motion="on">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Learning Command Center</title>
+  <meta name="description" content="Personal learning roadmap, progress tracker and project workspace.">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#0B1120">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/roadmap.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <a class="skip-link" id="skip-link" href="#view">Skip to content</a>
+
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#/dashboard">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8"/><circle cx="9" cy="10" r="3"/><circle cx="23" cy="10" r="3"/><circle cx="16" cy="23" r="3"/><path d="M12 10h8M10.5 12.5l4 8M21.5 12.5l-4 8"/></svg>
+        <span id="brand-name">Learning Command Center</span>
+      </a>
+      <nav class="side-nav" aria-label="Main" data-i18n-aria="nav.main"><ul id="nav"></ul></nav>
+      <div class="sidebar-foot" id="sidebar-progress"></div>
+    </aside>
+    <div class="scrim" data-action="nav-toggle" aria-hidden="true"></div>
+
+    <div class="main-col">
+      <header class="topbar">
+        <button class="icon-btn menu-btn" data-action="nav-toggle" data-i18n-aria="nav.menu" aria-label="Menu">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <form id="search-form" class="top-search" role="search">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="search" id="global-search" autocomplete="off">
+        </form>
+        <div id="timer-slot" class="timer-slot"></div>
+        <div class="top-actions">
+          <button class="btn sm ghost lang-btn" id="lang-btn" data-action="toggle-lang" lang="">ع</button>
+          <button class="btn sm ghost" data-action="focus-mode"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><circle cx="12" cy="12" r="3"/></svg><span data-i18n="focus.enter">Focus mode</span></button>
+          <button class="btn sm primary" data-action="resume"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l5.5-3.5z" fill="currentColor"/></svg><span data-i18n="dashboard.resume">Resume Learning</span></button>
+        </div>
+      </header>
+      <main id="view" class="view" tabindex="-1"></main>
+    </div>
+  </div>
+
+  <aside id="detail" class="detail-panel" hidden></aside>
+  <dialog id="modal"></dialog>
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <noscript><p class="noscript">This app needs JavaScript enabled.</p></noscript>
+
+  <!-- starter content (plain data) -->
+  <script src="data/initial-roadmap.js" defer></script>
+  <script src="data/initial-projects.js" defer></script>
+  <script src="data/initial-skills.js" defer></script>
+  <!-- core -->
+  <script src="js/utils.js" defer></script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/i18n-ar.js" defer></script>
+  <script src="js/theme.js" defer></script>
+  <script src="js/store.js" defer></script>
+  <script src="js/seed.js" defer></script>
+  <script src="js/model.js" defer></script>
+  <script src="js/ui.js" defer></script>
+  <script src="js/charts.js" defer></script>
+  <!-- pages (each registers itself; the sidebar is built from them) -->
+  <script src="js/detail.js" defer></script>
+  <script src="js/roadmap.js" defer></script>
+  <script src="js/activity.js" defer></script>
+  <script src="js/dashboard.js" defer></script>
+  <script src="js/learn.js" defer></script>
+  <script src="js/courses.js" defer></script>
+  <script src="js/certificates.js" defer></script>
+  <script src="js/tasks.js" defer></script>
+  <script src="js/skills.js" defer></script>
+  <script src="js/projects.js" defer></script>
+  <script src="js/lists.js" defer></script>
+  <script src="js/statistics.js" defer></script>
+  <script src="js/review.js" defer></script>
+  <script src="js/focus.js" defer></script>
+  <script src="js/manage.js" defer></script>
+  <script src="js/settings.js" defer></script>
+  <script src="js/search.js" defer></script>
+  <!-- boot -->
+  <script src="js/app.js" defer></script>
+</body>
+</html>
