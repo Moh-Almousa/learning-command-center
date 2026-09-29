@@ -273,3 +273,30 @@ details > summary:hover { color: var(--text); }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 .kpi-value { direction: ltr; justify-self: start; }
+
+/* ---------------- public read-only page (js/public.js) ---------------- */
+.public-banner {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  margin: 16px 32px 0; padding: 8px 14px;
+  background: color-mix(in srgb, var(--accent) 10%, var(--panel));
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
+  border-radius: var(--radius); font-size: 13px;
+}
+.public-banner[hidden] { display: none; }
+.public-banner .pb-text { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.public-banner .icon { color: var(--accent); }
+.is-public .pub-hidden,
+.is-public [data-private] { display: none !important; }
+.is-public .pub-static { cursor: default; opacity: 1; }
+.is-public .link-btn.pub-static,
+.is-public .crumb.pub-static { color: inherit; text-decoration: none; }
+.is-public .status-toggle.pub-static,
+.is-public .seg-btn.pub-static:not(.active) { opacity: .55; }
+.is-public .seg-btn.pub-static.active { opacity: 1; }
+.is-public select.pub-static { opacity: 1; appearance: none; -webkit-appearance: none; background: none; border-color: transparent; padding-inline: 0; pointer-events: none; color: var(--text); font-weight: 600; }
+a.kpi { color: inherit; text-decoration: none; transition: border-color .15s; }
+a.kpi:hover { border-color: var(--accent); }
+.public-list { list-style: none; padding: 0; margin: 10px 0; display: grid; gap: 6px; }
+.public-list li { display: flex; gap: 8px; align-items: flex-start; }
+.public-list .icon { flex: none; margin-top: 2px; }
+@media (max-width: 720px) { .public-banner { margin: 10px 12px 0; } }

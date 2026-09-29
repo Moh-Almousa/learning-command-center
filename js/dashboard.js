@@ -142,7 +142,61 @@
     </article>`;
   }
 
+  /** Read-only public page: where I am, what I finished, what I built. Nothing about time or private notes. */
+  function renderPublic(el) {
+    const s = S();
+    const o = M.overall();
+    const cur = M.current();
+    const counts = M.statusCounts();
+    const name = s.settings.userName || '';
+    const coursesDone = M.completedCourses().length;
+    const certs = s.certificates.length;
+    const projects = s.projectOrder.filter((id) => s.projects[id].status !== 'archived').length;
+    const skills = s.skillOrder.length;
+    el.innerHTML = `<div class="dashboard">
+      <header class="page-head hero">
+        <div>
+          <p class="kicker mono">${U.esc(t('public.readOnly'))}</p>
+          <h1>${U.esc(name ? t('public.heroTitle', { name }) : t('public.heroTitleNoName'))}</h1>
+          <p class="muted">${U.esc(t('public.heroSub'))}</p>
+          ${cur.target ? `<div class="here"><span class="here-label">${UI.icon('target')} ${U.esc(t('dashboard.youAreHere'))}</span><nav class="crumb-line" aria-label="${U.esc(t('dashboard.youAreHere'))}">${breadcrumb(cur.target)}</nav></div>` : ''}
+        </div>
+      </header>
+
+      <section class="kpis" aria-label="${U.esc(t('dashboard.summary'))}">
+        <div class="kpi big">
+          <span class="kpi-label">${U.esc(t('dashboard.overall'))}</span>
+          <span class="kpi-value mono">${o.pct}<small>%</small></span>
+          ${UI.progress(o.pct, { size: 'sm', hideValue: true, aria: t('dashboard.overall') })}
+        </div>
+        <div class="kpi"><span class="kpi-label">${U.esc(t('dashboard.completed'))}</span><span class="kpi-value mono">${counts.completed}</span><span class="kpi-sub">${U.esc(t('dashboard.itemsSub'))}</span></div>
+        <a class="kpi" href="#/courses"><span class="kpi-label">${U.esc(t('public.coursesDone'))}</span><span class="kpi-value mono">${coursesDone}</span></a>
+        <a class="kpi" href="#/certificates"><span class="kpi-label">${U.esc(t('public.certsEarned'))}</span><span class="kpi-value mono">${certs}</span></a>
+        <a class="kpi" href="#/projects"><span class="kpi-label">${U.esc(t('public.projectsCount'))}</span><span class="kpi-value mono">${projects}</span></a>
+        <a class="kpi" href="#/skills"><span class="kpi-label">${U.esc(t('public.skillsCount'))}</span><span class="kpi-value mono">${skills}</span></a>
+      </section>
+
+      ${hierarchyCard(cur)}
+
+      <div class="dash-grid">
+        <div class="col">
+          ${completedCoursesCard()}
+          ${recentCompleted()}
+        </div>
+        <div class="col">
+          ${projectsCard()}
+        </div>
+      </div>
+
+      <section class="card" aria-labelledby="rp-h">
+        <div class="section-head"><h2 id="rp-h">${U.esc(t('dashboard.roadmapPreview'))}</h2><a class="small" href="#/roadmap">${U.esc(t('dashboard.openRoadmap'))} ${t('common.arrow')}</a></div>
+        ${App.Roadmap.preview()}
+      </section>
+    </div>`;
+  }
+
   function render(el) {
+    if (App.Public.active) { renderPublic(el); return; }
     const s = S();
     const o = M.overall();
     const cur = M.current();

@@ -1,5 +1,7 @@
 # Learning Command Center
 
+> النسخة العربية: [README.ar.md](README.ar.md) · دليل الاستخدام بالعربية: [GUIDE.ar.md](GUIDE.ar.md)
+
 A personal **learning roadmap + progress history + project workspace** that runs entirely in the browser.
 No backend, no database, no login — static files you can host on GitHub Pages. Bilingual: English / العربية.
 
@@ -27,6 +29,9 @@ add or change courses, lessons, tasks, projects, skills, technologies, milestone
 - **Certificates** — a gallery linked to courses: thumbnail, course, platform, date, credential ID, status
   (earned / pending / expired from the expiry date), search + filters, preview with *View certificate*,
   *Open original* and *Edit*. Add one from any completed course. Optional — never affects course completion.
+- **Public page (read-only)** — publish a trimmed copy for friends or employers: learning plan with progress
+  and dates, projects with tasks and *What I applied*, skills, earned certificates. Notes, resources, sessions,
+  history, reviews, lists and pending certificates are never included, not even in the file. Visitors can't edit.
 - **Lists** — your own collections: reading list, certifications, interview prep, books, practice problems…
 - **Activity / History** (filter by level and event, sort newest/oldest), **Weekly Review**, **Statistics**,
   **Search**, **Focus Mode**, study **timer**, **Export / Import / Reset**.
@@ -44,6 +49,7 @@ data/                      STARTER CONTENT — plain, readable data, no logic
   initial-roadmap.js       paths → tracks → courses → modules → lessons → tasks, dependencies, start position
   initial-projects.js      projects, groups, tasks, milestones, "What I Applied"
   initial-skills.js        skills, technology registry, project templates, lists
+  public-state.js          the published read-only copy (empty until you publish from Settings → Public page)
 
 css/
   variables.css            DESIGN TOKENS — every colour, font, radius, spacing; dark + light themes; density
@@ -64,6 +70,7 @@ js/
   model.js                 derived data: progress, status, locks, next step, streaks, history queries, search
   ui.js                    icons, progress bars, status controls, forms, dialogs, toasts, click dispatcher
   charts.js                tiny SVG charts (columns, progress line, ring) + tooltip
+  public.js                public read-only page: mode (owner / visitor / preview), trimmed copy, read-only UI
   detail.js                side detail panel + add / edit / move / reopen / delete learning items
   roadmap.js               roadmap map (layout, zoom/pan) + outline view
   activity.js              study sessions, activity feed, Activity + History page
@@ -109,6 +116,14 @@ credentialId, status, certificateUrl, imageUrl, thumbnailUrl, notes, nodeId` —
 only in the preview. Every place that needs a file calls `asset(cert, kind)` in `certificates.js`, and each record
 has a reserved `file` field (`{ storage, key, mime, size }`), so adding uploads to a backend later means filling
 that field and changing `asset()` — nothing else in the section.
+
+**Public page.** Settings → Public page → *Download public file* produces `public-state.js`; upload it to `data/`
+(replacing the empty one) and every browser that isn't the owner's sees that copy read-only. `build()` in
+`public.js` is an allow-list — anything not named there never leaves the browser. The owner's browser is marked
+with `localStorage['lcc.owner']` (on the first edit, or if it already held used data before anything was published);
+*Is this your site?* in the banner marks another browser. Visitors never write app data; non-public pages redirect
+to the dashboard; every action not in `ALLOW` is hidden and refused by the dispatcher; `data-private` sections are hidden.
+When you re-upload the site files, don't overwrite your published `data/public-state.js` with the empty one.
 
 Percentages are never typed by hand — they are always calculated from the items inside.
 History is never trimmed automatically. Older saved data is migrated in place on load (see `normalize()` in `store.js`).

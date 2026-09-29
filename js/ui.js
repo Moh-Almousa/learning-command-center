@@ -340,6 +340,7 @@
       if (!el || el.disabled) return;
       const fn = actions[el.dataset.action];
       if (!fn) return;
+      if (App.Public && !App.Public.allows(el.dataset.action)) { e.preventDefault(); return; }
       if (el.tagName === 'A' || el.tagName === 'BUTTON' || el.getAttribute('role') === 'button') e.preventDefault();
       fn(el, e);
     });
@@ -347,6 +348,7 @@
       const el = e.target.closest('[data-change]');
       if (!el) return;
       const fn = actions[el.dataset.change];
+      if (App.Public && !App.Public.allows(el.dataset.change)) return;
       if (fn) fn(el, e);
     });
   }

@@ -96,6 +96,8 @@
           <select id="set-lang" data-change="set-lang" aria-labelledby="s-lang">${App.i18n.languages().map((code) => `<option value="${code}" lang="${code}" ${App.i18n.lang === code ? 'selected' : ''}>${U.esc(App.i18n.STRINGS[code]['lang.name'])}</option>`).join('')}</select>
         </section>
 
+        ${App.Public.settingsSection()}
+
         <section class="card" aria-labelledby="s-data"><h2 id="s-data">${UI.icon('database')} ${U.esc(t('nav.data'))}</h2>
           <p class="muted small">${U.esc(t('data.subtitle'))}</p>
           <div class="btn-row mt">
@@ -159,7 +161,7 @@
   }
 
   async function importFile(file) {
-    if (!file) return;
+    if (!file || App.Public.active) return;
     const text = await file.text();
     const ok = await UI.confirm({ title: t('data.importConfirmTitle'), message: t('data.importConfirm', { name: file.name }), confirmLabel: t('data.importBtn') });
     if (!ok) return;

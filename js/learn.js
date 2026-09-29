@@ -90,7 +90,7 @@
     const rows = s.progressLog.filter((r) => r.id === id);
     const series = M.progressSeries(id);
     const open = openTables.has(id);
-    return `<section class="card" aria-labelledby="ph-h">
+    return `<section class="card" aria-labelledby="ph-h" data-private>
       <div class="section-head"><h2 id="ph-h">${U.esc(t('history.progressHistory'))}</h2><span class="muted small">${U.esc(t('history.changes', { n: rows.length }))}</span></div>
       ${rows.length
         ? App.Charts.lineChart(series, { aria: t('history.progressHistory'), tip: (p) => `${U.fmtDate(p.ts)} ${p.now ? '(' + t('history.now') + ')' : ''}: ${p.pct}%` })
@@ -190,7 +190,7 @@
             ${isContainer ? (cardLevel ? childCards(n.children) : `<ul class="ct-list root">${treeRows(n.children)}</ul>`) : `<p class="muted">${U.esc(t('detail.noChildren'))}</p>`}
           </section>` : ''}
           ${isContainer ? historyCard(id) : ''}
-          <section class="card" aria-labelledby="ev-h">
+          <section class="card" aria-labelledby="ev-h" data-private>
             <div class="section-head"><h2 id="ev-h">${U.esc(t('history.activity'))}</h2><a class="small" href="#/activity?view=history">${U.esc(t('common.viewAll'))}</a></div>
             ${App.Activity.feed(events)}
           </section>
@@ -198,11 +198,11 @@
         <aside class="col side">
           ${n.type === 'course' ? App.Certificates.courseSection(id) : ''}
           ${completionHistory(n)}
-          <section class="card">
+          <section class="card" data-private>
             <div class="section-head"><h2>${U.esc(t('detail.resources'))}</h2>${UI.iconBtn('plus', 'resource-add', t('actions.addResource'), { kind: 'node', id }, 'sm')}</div>
             ${UI.resourceList('node', id, n.resources)}
           </section>
-          <section class="card">
+          <section class="card" data-private>
             <h2><label for="learn-notes">${U.esc(t('detail.notes'))}</label></h2>
             <textarea id="learn-notes" class="notes" data-notes-kind="node" data-notes-id="${id}" rows="6" placeholder="${U.esc(t('detail.notesPlaceholder'))}">${U.esc(n.notes)}</textarea>
             <p class="help" data-save-state>${U.esc(t('detail.notesAutosave'))}</p>

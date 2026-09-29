@@ -19,7 +19,9 @@
     const [name, sub] = path.split('/');
     const params = {};
     new URLSearchParams(query).forEach((v, k) => { params[k] = v; });
-    return { name: App.Pages[name] ? name : 'dashboard', sub: sub ? decodeURIComponent(sub) : null, params };
+    const ok = App.Pages[name] && App.Public.pageAllowed(name);
+    if (ok && name === 'projects' && App.Public.active && params.tab && !App.Public.PROJECT_TABS.includes(params.tab)) params.tab = 'overview';
+    return { name: ok ? name : 'dashboard', sub: ok && sub ? decodeURIComponent(sub) : null, params };
   }
 
   function navigate() {
@@ -89,12 +91,19 @@
     // The sidebar is built from every page that registered a `nav` entry (see README → Adding a feature).
     const nav = document.getElementById('nav');
     const current = (App.Pages[route.name] && App.Pages[route.name].navKey) || route.name;
-    nav.innerHTML = Object.entries(App.Pages).filter(([, p]) => p.nav).sort((a, b) => a[1].nav.order - b[1].nav.order).map(([name, p]) => {
+    nav.innerHTML = Object.entries(App.Pages).filter(([name, p]) => p.nav && App.Public.pageAllowed(name)).sort((a, b) => a[1].nav.order - b[1].nav.order).map(([name, p]) => {
       const active = current === name;
       return `<li><a href="#/${name}" class="nav-link ${active ? 'active' : ''}" ${active ? 'aria-current="page"' : ''}>${UI.icon(p.nav.icon)}<span>${U.esc(t('nav.' + name))}</span></a></li>`;
     }).join('');
     renderSidebarProgress();
     renderTimer();
+    renderPublicBanner();
+  }
+
+  function renderPublicBanner() {
+    const el = document.getElementById('public-banner');
+    el.hidden = !App.Public.active;
+    el.innerHTML = App.Public.banner();
   }
 
   function renderSidebarProgress() {
@@ -156,6 +165,7 @@
   function setLanguage(lang) {
     if (lang === App.i18n.lang) return;
     Store.updateSettings({ lang }, { silent: true, immediate: true });
+    App.Public.rememberLang(lang);
     App.i18n.apply(lang);
     applyStaticText();
     App.Roadmap.requestFit();
@@ -249,6 +259,7 @@
     applyStaticText();
 
     UI.initActions();
+    App.Public.watch();
 
     Store.subscribe((opts) => {
       App.Theme.apply(S().settings);
@@ -277,7 +288,7 @@
     window.addEventListener('hashchange', navigate);
     setInterval(tickTimer, 1000);
 
-    if (!Store.storageInfo().persistent) {
+    if (!App.Public.active && !Store.storageInfo().persistent) {
       UI.toast(t('errors.noStorage'), { tone: 'warn', duration: 9000 });
     }
     navigate();

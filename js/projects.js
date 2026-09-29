@@ -278,7 +278,7 @@
         ${learnHits.length ? `<h3 class="mini-h">${U.esc(t('projects.learning'))}</h3><ul class="mini-list">${learnHits.map((id) => `<li>${UI.icon('book')}<button class="link-btn" data-action="open-node" data-id="${id}">${U.esc(s.nodes[id].title)}</button></li>`).join('')}</ul>` : ''}
         ${taskHits.length ? `<h3 class="mini-h">${U.esc(t('projects.tasks'))}</h3><ul class="child-list">${taskHits.map((x) => `<li class="child-row ${x.status}">${UI.statusToggle('ptask-toggle', x.id, x.status, x.title)}<button class="link-btn" data-action="ptask-edit" data-id="${x.id}">${U.esc(x.title)}</button><a class="muted small" href="#/projects/${x.projectId}?tab=tasks">${U.esc(s.projects[x.projectId].name)}</a></li>`).join('')}</ul>` : ''}
       </section>` : ''}
-      <section class="card mt" aria-labelledby="tpl-h">
+      <section class="card mt" aria-labelledby="tpl-h" data-private>
         <div class="section-head"><h2 id="tpl-h">${U.esc(t('projects.templates'))}</h2>${UI.btn(t('projects.newTemplate'), 'template-new', { cls: 'sm ghost', icon: 'plus' })}</div>
         <p class="muted small">${U.esc(t('projects.templatesIntro'))}</p>
         ${s.templates.length ? `<ul class="mini-list">${s.templates.map((x) => {
@@ -436,13 +436,13 @@
         <section class="card"><h3>${U.esc(t('projects.byGroup'))}</h3>
           ${groups.length ? `<ul class="bar-list">${groups.map((x) => `<li><span class="bl-label">${U.esc(x.g.name)}</span>${UI.progress(x.pct, { size: 'xs', hideValue: true, aria: x.g.name })}<span class="mono small">${x.label}</span></li>`).join('')}</ul>` : `<p class="muted small">${U.esc(t('projects.noGroups'))}</p>`}
         </section>
-        <section class="card"><div class="section-head"><h3>${U.esc(t('nav.activity'))}</h3><a class="small" href="#/projects/${p.id}?tab=activity">${U.esc(t('common.viewAll'))}</a></div>${App.Activity.feed(recent)}</section>
+        <section class="card" data-private><div class="section-head"><h3>${U.esc(t('nav.activity'))}</h3><a class="small" href="#/projects/${p.id}?tab=activity">${U.esc(t('common.viewAll'))}</a></div>${App.Activity.feed(recent)}</section>
       </div>
       <div class="col">
         <section class="card"><h3>${U.esc(t('projects.links'))}</h3>
           ${links.length ? `<ul class="res-list">${links.map(([k, ic]) => `<li>${UI.icon(ic)}<a href="${U.esc(p[k])}" target="_blank" rel="noopener noreferrer">${U.esc(t('field.' + k))}</a></li>`).join('')}</ul>` : `<p class="muted small">${U.esc(t('projects.noLinks'))}</p>`}
-          <div class="section-head mt"><h3>${U.esc(t('detail.resources'))}</h3>${UI.iconBtn('plus', 'resource-add', t('actions.addResource'), { kind: 'project', id: p.id }, 'sm')}</div>
-          ${UI.resourceList('project', p.id, p.resources)}
+          <div data-private><div class="section-head mt"><h3>${U.esc(t('detail.resources'))}</h3>${UI.iconBtn('plus', 'resource-add', t('actions.addResource'), { kind: 'project', id: p.id }, 'sm')}</div>
+          ${UI.resourceList('project', p.id, p.resources)}</div>
         </section>
         <section class="card"><div class="section-head"><h3>${U.esc(t('projects.milestones'))}</h3><a class="small" href="#/projects/${p.id}?tab=milestones">${U.esc(t('common.viewAll'))}</a></div>
           ${st.milestones.length ? `<ul class="bar-list">${st.milestones.map((m) => `<li><span class="bl-label">${m.complete ? UI.icon('done', 'st-completed') : UI.icon('flag')} ${U.esc(m.m.name)}</span>${UI.progress(m.pct, { size: 'xs', hideValue: true, aria: m.m.name })}<span class="mono small">${m.done}/${m.total}</span></li>`).join('')}</ul>` : `<p class="muted small">${U.esc(t('projects.noMilestones'))}</p>`}
@@ -623,7 +623,7 @@
         </div>
       </header>
       <nav class="tabs" role="tablist" aria-label="${U.esc(t('projects.sections'))}">
-        ${TABS.map((x) => `<a role="tab" href="#/projects/${pid}?tab=${x}" class="tab ${x === tab ? 'active' : ''}" aria-selected="${x === tab}">${U.esc(t('projects.tab_' + x))}</a>`).join('')}
+        ${TABS.filter((x) => !App.Public.active || App.Public.PROJECT_TABS.includes(x)).map((x) => `<a role="tab" href="#/projects/${pid}?tab=${x}" class="tab ${x === tab ? 'active' : ''}" aria-selected="${x === tab}">${U.esc(t('projects.tab_' + x))}</a>`).join('')}
       </nav>
       <div class="tab-panel" role="tabpanel">${body}</div>`;
 
@@ -644,7 +644,7 @@
         e.preventDefault();
         col.classList.remove('over');
         const id = e.dataTransfer.getData('text/plain');
-        if (id) Store.setPTaskStatus(id, col.dataset.drop);
+        if (id && !App.Public.active) Store.setPTaskStatus(id, col.dataset.drop);
       });
     });
   }

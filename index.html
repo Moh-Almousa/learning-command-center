@@ -49,6 +49,7 @@
           <button class="btn sm primary" data-action="resume"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l5.5-3.5z" fill="currentColor"/></svg><span data-i18n="dashboard.resume">Resume Learning</span></button>
         </div>
       </header>
+      <div id="public-banner" class="public-banner" role="status" hidden></div>
       <main id="view" class="view" tabindex="-1"></main>
     </div>
   </div>
@@ -63,6 +64,8 @@
   <script src="data/initial-roadmap.js" defer></script>
   <script src="data/initial-projects.js" defer></script>
   <script src="data/initial-skills.js" defer></script>
+  <!-- public read-only copy (replace with the file from Settings → Public page) -->
+  <script src="data/public-state.js" defer></script>
   <!-- core -->
   <script src="js/utils.js" defer></script>
   <script src="js/i18n.js" defer></script>
@@ -73,6 +76,7 @@
   <script src="js/model.js" defer></script>
   <script src="js/ui.js" defer></script>
   <script src="js/charts.js" defer></script>
+  <script src="js/public.js" defer></script>
   <!-- pages (each registers itself; the sidebar is built from them) -->
   <script src="js/detail.js" defer></script>
   <script src="js/roadmap.js" defer></script>

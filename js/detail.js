@@ -385,12 +385,12 @@
           ${n.children.length ? `<ul class="child-list">${n.children.map(childRow).join('')}</ul>` : `<p class="muted small">${U.esc(t('detail.noChildren'))}</p>`}
         </section>` : ''}
 
-        <section>
+        <section data-private>
           <div class="section-head"><h3>${U.esc(t('detail.resources'))}</h3>${UI.btn(t('actions.addResource'), 'resource-add', { cls: 'sm ghost', icon: 'plus', data: { kind: 'node', id: n.id } })}</div>
           ${UI.resourceList('node', n.id, n.resources)}
         </section>
 
-        <section>
+        <section data-private>
           <h3><label for="node-notes">${U.esc(t('detail.notes'))}</label></h3>
           <textarea id="node-notes" class="notes" data-notes-kind="node" data-notes-id="${n.id}" rows="5" placeholder="${U.esc(t('detail.notesPlaceholder'))}">${U.esc(n.notes)}</textarea>
           <p class="help" data-save-state>${U.esc(t('detail.notesAutosave'))}</p>

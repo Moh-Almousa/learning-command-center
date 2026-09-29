@@ -198,6 +198,15 @@
   const writeSoon = U.debounce(writeNow, 120);
 
   function load() {
+    // Public read-only page (see public.js): show the published / trimmed copy and never write anything.
+    const pub = App.Public && App.Public.active ? App.Public.initialState() : null;
+    if (pub) {
+      persistent = false;
+      state = normalize(pub);
+      rev++;
+      recordProgress(state, { silent: true });
+      return state;
+    }
     persistent = storageAvailable();
     let raw = null;
     if (persistent) {
@@ -219,6 +228,7 @@
     rev++;
     recordProgress(state, { silent: !!opts.silentProgress, since: started });
     if (opts.immediate) writeNow(); else writeSoon();
+    if (App.Public) App.Public.markOwner();
     listeners.forEach((fn) => fn(opts));
     return result;
   }
